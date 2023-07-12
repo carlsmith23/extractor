@@ -1,8 +1,8 @@
-from logic import Logic
+from menu import Menu
 
 
 def main():
-    logic = Logic()
+    logic = Menu()
     logic.run()
 
 

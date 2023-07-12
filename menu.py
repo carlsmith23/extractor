@@ -4,10 +4,11 @@ from config import Config
 from doc import Doc
 
 
-class Logic:
+class Menu:
     def __init__(self):
         self.config = Config()
-        self.doc = Doc(self)
+        self.doc = Doc()
 
     def run(self):
-        Doc(self).scan()
+        doc_meta = self.doc.scan()
+        print(doc_meta)
