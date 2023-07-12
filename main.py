@@ -2,8 +2,8 @@ from menu import Menu
 
 
 def main():
-    logic = Menu()
-    logic.run()
+    menu = Menu()
+    menu.run()
 
 
 if __name__ == "__main__":

@@ -10,5 +10,20 @@ class Menu:
         self.doc = Doc()
 
     def run(self):
-        doc_meta = self.doc.scan()
-        print(doc_meta)
+        run = True
+        while run == True:
+            self.header()
+            print("(S)can the currently loaded document")
+            print("(Q)uit")
+            i = input("?: ")
+            if i == "q" or i == "Q":
+                run = False
+            elif i == "s" or i == "S":
+                doc_meta = self.doc.scan()
+                print(doc_meta)
+
+    def header(self):
+        print("")
+        print("******************************************************")
+        print("PDF EXTRACTOR")
+        print("")
