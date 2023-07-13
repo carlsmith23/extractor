@@ -36,7 +36,8 @@ class Doc:
         )
         return doc_meta
 
-    def process(self):
-        for each_page in document:  # iterate the document pages
+    def extract(self):
+        for each_page in self.document:
             page = Page()
-            page_contents = self.page.process(each_page)
+            page_contents = page.extract(each_page)
+            print(page_contents)

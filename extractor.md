@@ -1,4 +1,16 @@
 # Notes
+to do:
+- Clean text of newlines etc.
+- combine all annotations, sort and write to md
+- interface
+
+
+
+
+
+
+
+
 
 open pdf
     setup

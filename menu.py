@@ -14,6 +14,7 @@ class Menu:
         while run == True:
             self.header()
             print("(S)can the currently loaded document")
+            print("(E)xtract Annotations")
             print("(Q)uit")
             i = input("?: ")
             if i == "q" or i == "Q":
@@ -21,6 +22,11 @@ class Menu:
             elif i == "s" or i == "S":
                 doc_meta = self.doc.scan()
                 print(doc_meta)
+            elif i == "e" or i == "E":
+                doc_annotations = self.doc.extract()
+                print(doc_annotations)
+            else:
+                pass
 
     def header(self):
         print("")

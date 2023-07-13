@@ -17,10 +17,10 @@ class Page:
             page_contents[each_annotation.type[1]].append(anno_color_hex)
         return page_contents
 
-    def process(self, this_page):
+    def extract(self, this_page):
         for each_annotation in this_page.annots():
             # if each_annotation.type == "Highlight" & self.doc.
             text = this_page.get_text().encode("utf8")  # get plain text (is in UTF-8)
             print(each_annotation.type)
-            entry = self.annotation.process(this_page, each_annotation)
+            entry = self.annotation.extract(this_page, each_annotation)
             print(entry)
