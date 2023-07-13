@@ -16,12 +16,12 @@ class Annotation:
         all_words = this_page.get_text("words")
         annot_words = [w for w in all_words if fitz.Rect(w[:4]).intersects(rectangle)]
 
-        entry = {
-            "type": this_annotation.type,
+        annotation_contents = {
+            "type": this_annotation.type[1],
             "color": anno_color_hex,
             "text": self.make_text(annot_words),
         }
-        return entry
+        return annotation_contents
 
     def make_text(self, words):
         line_dict = {}  # key: vertical coordinate, value: list of words
@@ -36,6 +36,6 @@ class Annotation:
 
         lines = list(line_dict.items())
         lines.sort()  # sort vertically
-        return "\n".join([" ".join(line[1]) for line in lines])
+        return " ".join([" ".join(line[1]) for line in lines])
 
         # add code to clean newlines

@@ -1,14 +1,13 @@
 import fitz
 import json
 
-from config import Config
 from page import Page
 
 
 class Doc:
-    def __init__(self):
-        self.config = Config()
-        self.document = fitz.open(self.config.pdf_file)
+    def __init__(self, config):
+        self.config = config
+        self.document = fitz.open(config.settings["pdf_file"])
         print(self.document.page_count)
 
     def scan(self):
@@ -16,7 +15,7 @@ class Doc:
             Highlight=[], Underline=[], StrikeOut=[]
         )  # capitalized because that's what is in the PDF data
         for each_page in self.document:
-            page = Page()
+            page = Page(self.config)
             page_contents = page.scan(
                 each_page
             )  # returns dictionary listing types of annotations and their colors
@@ -37,7 +36,18 @@ class Doc:
         return doc_meta
 
     def extract(self):
+        doc_contents = dict(
+            Title=self.document.metadata["title"],
+            Author=self.document.metadata["author"],
+            Citekey="",
+            Highlight=[],
+            Underline=[],
+            StrikeOut=[],
+        )
         for each_page in self.document:
-            page = Page()
+            page = Page(self.config)
             page_contents = page.extract(each_page)
-            print(page_contents)
+            doc_contents["Highlight"].extend(page_contents["Highlight"])
+            doc_contents["Underline"].extend(page_contents["Underline"])
+            doc_contents["StrikeOut"].extend(page_contents["StrikeOut"])
+        print(doc_contents)

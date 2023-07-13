@@ -1,8 +1,8 @@
 class Config:
     def __init__(self):
-        self.conf = dict(
+        self.settings = dict(
             pdf_file="./tests/test3.pdf",
             highlight_enable=True,
-            underline_enable=False,
+            underline_enable=True,
             strikeout_enable=False,
         )

@@ -7,7 +7,7 @@ from doc import Doc
 class Menu:
     def __init__(self):
         self.config = Config()
-        self.doc = Doc()
+        self.doc = Doc(self.config)
 
     def run(self):
         run = True
