@@ -1,9 +1,11 @@
 import fitz
+
 from annotation import Annotation
 
 
 class Page:
-    def __init__(self):
+    def __init__(self, config):
+        self.config = config
         self.annotation = Annotation()
 
     def scan(self, this_page):
@@ -17,10 +19,32 @@ class Page:
             page_contents[each_annotation.type[1]].append(anno_color_hex)
         return page_contents
 
-    def process(self, this_page):
+    def extract(self, this_page):
+        page_contents = dict(Highlight=[], Underline=[], StrikeOut=[])
         for each_annotation in this_page.annots():
             # if each_annotation.type == "Highlight" & self.doc.
             text = this_page.get_text().encode("utf8")  # get plain text (is in UTF-8)
-            print(each_annotation.type)
-            entry = self.annotation.process(this_page, each_annotation)
-            print(entry)
+
+            annotation_contents = self.annotation.extract(this_page, each_annotation)
+            if (
+                annotation_contents["type"] == "Highlight"
+                and self.config.settings["highlight_enable"]
+            ):
+                page_contents["Highlight"].append(
+                    [annotation_contents["color"], annotation_contents["text"]]
+                )
+            elif (
+                annotation_contents["type"] == "Underline"
+                and self.config.settings["underline_enable"]
+            ):
+                page_contents["Underline"].append(
+                    [annotation_contents["color"], annotation_contents["text"]]
+                )
+            elif (
+                annotation_contents["type"] == "StrikeOut"
+                and self.config.settings["strikeout_enable"]
+            ):
+                page_contents["StrikeOut"].append(
+                    [annotation_contents["color"], annotation_contents["text"]]
+                )
+        return page_contents
