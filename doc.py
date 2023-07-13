@@ -1,14 +1,11 @@
-import fitz
-import json
-
 from page import Page
+import fitz
 
 
 class Doc:
-    def __init__(self, config):
+    def __init__(self, config, document):
         self.config = config
-        self.document = fitz.open(config.settings["pdf_file"])
-        print(self.document.page_count)
+        self.document = document
 
     def scan(self):
         doc_contents = dict(
