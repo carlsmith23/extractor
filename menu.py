@@ -2,6 +2,7 @@ import fitz
 
 from config import Config
 from doc import Doc
+from output import Output
 
 
 class Menu:
@@ -9,11 +10,13 @@ class Menu:
         self.config = Config()
         self.document = fitz.open(self.config.settings["pdf_file"])
         self.doc = Doc(self.config, self.document)
+        self.output = Output(self.config)
 
     def run(self):
         run = True
         while run == True:
             self.header()
+            print("(G)et metadata")
             print("(S)can the currently loaded document")
             print("(E)xtract Annotations")
             print("(W)rite to file")
@@ -21,15 +24,16 @@ class Menu:
             i = input("?: ")
             if i == "q" or i == "Q":
                 run = False
+            elif i == "g" or i == "G":
+                self.doc.get_metadata()
             elif i == "s" or i == "S":
-                doc_meta = self.doc.scan()
-                print(doc_meta)
+                doc_scan = self.doc.scan()
+                print(doc_scan)
             elif i == "e" or i == "E":
                 doc_annotations = self.doc.extract()
                 print(doc_annotations)
             elif i == "w" or i == "W":
-                # write to file
-                print(doc_meta)
+                self.output.to_markdown(doc_annotations)
             else:
                 pass
 
