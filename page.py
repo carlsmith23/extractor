@@ -1,4 +1,4 @@
-import fitz
+import pandas
 
 from annotation import Annotation
 
@@ -19,8 +19,8 @@ class Page:
             page_contents[each_annotation.type[1]].append(anno_color_hex)
         return page_contents
 
-    def extract(self, this_page):
-        page_contents = dict(Highlight=[], Underline=[], StrikeOut=[])
+    def extract(self, this_page, page_number):
+        page_contents = []
         for each_annotation in this_page.annots():
             # if each_annotation.type == "Highlight" & self.doc.
             text = this_page.get_text().encode("utf8")  # get plain text (is in UTF-8)
@@ -30,21 +30,36 @@ class Page:
                 annotation_contents["type"] == "Highlight"
                 and self.config.settings["highlight_enable"]
             ):
-                page_contents["Highlight"].append(
-                    [annotation_contents["color"], annotation_contents["text"]]
+                page_contents.append(
+                    {
+                        "type": "highlight",
+                        "color": annotation_contents["color"],
+                        "page_number": page_number,
+                        "text": annotation_contents["text"],
+                    }
                 )
             elif (
                 annotation_contents["type"] == "Underline"
                 and self.config.settings["underline_enable"]
             ):
-                page_contents["Underline"].append(
-                    [annotation_contents["color"], annotation_contents["text"]]
+                page_contents.append(
+                    {
+                        "type": "underline",
+                        "color": annotation_contents["color"],
+                        "page_number": page_number,
+                        "text": annotation_contents["text"],
+                    }
                 )
             elif (
                 annotation_contents["type"] == "StrikeOut"
                 and self.config.settings["strikeout_enable"]
             ):
-                page_contents["StrikeOut"].append(
-                    [annotation_contents["color"], annotation_contents["text"]]
+                page_contents.append(
+                    {
+                        "type": "strikeout",
+                        "color": annotation_contents["color"],
+                        "page_number": page_number,
+                        "text": annotation_contents["text"],
+                    }
                 )
         return page_contents
