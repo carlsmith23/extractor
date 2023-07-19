@@ -87,12 +87,55 @@ class Doc:
             page_contents = page.extract(each_page, page_number)
             doc_contents.extend(page_contents)
             page_number += 1
-
-        doc_df = pd.DataFrame(doc_contents)
+        # doc_contents = self.sort(doc_contents)
+        doc_all = dict(
+            title=self.metadata["title"],
+            author=self.metadata["author"],
+            citekey=self.metadata["citekey"],
+            highlights=doc_contents,
+        )
+        return doc_all
+        # print(doc_contents)
 
         # author = [self.document.metadata["author"] for i in range(len(df.index))]
         # title = [self.document.metadata["title"] for i in range(len(df.index))]
-        doc_df.insert(0, "citekey", self.metadata["citekey"])
-        doc_df.insert(0, "author", self.metadata["author"])
-        doc_df.insert(0, "title", self.metadata["title"])
-        print(doc_df)
+        # doc_df.insert(0, "citekey", self.metadata["citekey"])
+        # doc_df.insert(0, "author", self.metadata["author"])
+        # doc_df.insert(0, "title", self.metadata["title"])
+        # return doc_df
+
+    def sort(self, doc_contents):
+        doc_list = [
+            i
+            for i in doc_contents
+            if (i["type"] == "highlight") and (i["function"] == "important")
+        ]
+        doc_list.append(
+            [
+                i
+                for i in doc_contents
+                if (i["type"] == "highlight") and (i["function"] == "definition")
+            ]
+        )
+        doc_list.append(
+            [
+                i
+                for i in doc_contents
+                if (i["type"] == "highlight") and (i["function"] == "default")
+            ]
+        )
+        doc_list.append(
+            [
+                i
+                for i in doc_contents
+                if (i["type"] == "highlight") and (i["function"] == "methdology")
+            ]
+        )
+        doc_list.append(
+            [
+                i
+                for i in doc_contents
+                if (i["type"] == "highlight") and (i["function"] == "follow_up")
+            ]
+        )
+        return doc_list

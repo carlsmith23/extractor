@@ -1,2 +1,4 @@
-# from Page import page
-# from Annotation import annotation
+from doc import Doc
+from page import Page
+from annotation import Annotation
+from output import Output

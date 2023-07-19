@@ -1,21 +1,58 @@
-import mdutils
+from mdutils.mdutils import MdUtils
+from mdutils import Html
+import pandas
+from datetime import date
 
 
 class Output:
     def __init__(self, config):
         self.config = config
 
-    def to_markdown(self, doc_annotations):
-        mdFile = MdUtils(file_name="test", title="Annotations Test")
-        mdFile.create_md_file()
-        mdFile.new_header(level=1, title=doc_annotations["Title"])
-        mdFile.new_header(level=2, title=doc_annotations["Author"])
+    def to_file(self, doc_contents):
+        title = doc_contents["title"]
+        author = doc_contents["author"]
+        date_today = str(date.today())
+        highlights = doc_contents["highlights"]
 
-        for row in doc_df:
-            mdFile.write("*Color:* {}".format(doc_annotations["Highlights"][1]))
-            mdFile.write("*Page: * {}".format(doc_annotations["Highlights"][0]))
-            mdFile.write(
-                "{} {}".format(
-                    doc_annotations["Highlights"][1], doc_annotations["Citekey"]
-                )
-            )
+        mdFile = MdUtils(file_name="test", title=title)
+        mdFile.new_header(level=1, title=title)
+        mdFile.new_line(author)
+
+        mdFile.new_line(date_today)
+        mdFile.new_header(level=2, title="Highlights")
+        mdFile.new_header(level=3, title="Important")
+        for i in highlights:
+            if i["function"] == "important":
+                mdFile.write(i["text"])
+                mdFile.write("[@{}]".format(doc_contents["citekey"]))
+                mdFile.write("\n\n")
+
+        mdFile.new_header(level=3, title="Definitions")
+        for i in highlights:
+            if i["function"] == "definition":
+                mdFile.write(i["text"])
+                mdFile.write("[@{}]".format(doc_contents["citekey"]))
+                mdFile.write("\n\n")
+
+        mdFile.new_header(level=3, title="Highlights")
+        for i in highlights:
+            if i["function"] == "default":
+                mdFile.write(i["text"])
+                mdFile.write("[@{}]".format(doc_contents["citekey"]))
+                mdFile.write("\n\n")
+
+        mdFile.new_header(level=3, title="Methodology")
+        for i in highlights:
+            if i["function"] == "definition":
+                mdFile.write(i["text"])
+                mdFile.write("[@{}]".format(doc_contents["citekey"]))
+                mdFile.write("\n\n")
+
+        mdFile.new_header(level=3, title="Follow-up")
+        for i in highlights:
+            if i["function"] == "follow_up":
+                mdFile.write(i["text"])
+                mdFile.write("[@{}]".format(doc_contents["citekey"]))
+                mdFile.write("\n\n")
+
+        mdFile.create_md_file()

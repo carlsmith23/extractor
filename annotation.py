@@ -4,8 +4,8 @@ from scipy.spatial import KDTree
 
 
 class Annotation:
-    def __init__(self):
-        pass
+    def __init__(self, config):
+        self.config = config
 
     def extract(self, this_page, this_annotation):
         (red, green, blue) = this_annotation.colors["stroke"]
@@ -19,6 +19,7 @@ class Annotation:
         annotation_contents = {
             "type": this_annotation.type[1],
             "color": anno_color_hex,
+            "function": self.color_function(this_annotation.type[1], anno_color_hex),
             "text": self.make_text(annot_words),
         }
         return annotation_contents
@@ -38,4 +39,7 @@ class Annotation:
         lines.sort()  # sort vertically
         return " ".join([" ".join(line[1]) for line in lines])
 
-        # add code to clean newlines
+    def color_function(self, type, color):
+        function = "self.config.settings['{}_color']['{}']".format(type, color)
+        function = eval(function)
+        return function
