@@ -6,7 +6,7 @@ from annotation import Annotation
 class Page:
     def __init__(self, config):
         self.config = config
-        self.annotation = Annotation()
+        self.annotation = Annotation(self.config)
 
     def scan(self, this_page):
         page_contents = dict(
@@ -34,6 +34,7 @@ class Page:
                     {
                         "type": "highlight",
                         "color": annotation_contents["color"],
+                        "function": annotation_contents["function"],
                         "page_number": page_number,
                         "text": annotation_contents["text"],
                     }
@@ -46,6 +47,7 @@ class Page:
                     {
                         "type": "underline",
                         "color": annotation_contents["color"],
+                        "function": annotation_contents["function"],
                         "page_number": page_number,
                         "text": annotation_contents["text"],
                     }
@@ -58,6 +60,7 @@ class Page:
                     {
                         "type": "strikeout",
                         "color": annotation_contents["color"],
+                        "function": annotation_contents["function"],
                         "page_number": page_number,
                         "text": annotation_contents["text"],
                     }

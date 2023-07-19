@@ -30,14 +30,16 @@ class Menu:
                 doc_scan = self.doc.scan()
                 print(doc_scan)
             elif i == "e" or i == "E":
-                doc_annotations = self.doc.extract()
-                print(doc_annotations)
+                doc_contents = self.doc.extract()
             elif i == "w" or i == "W":
-                self.output.to_markdown(doc_annotations)
+                self.output.to_file(doc_contents)
             else:
                 pass
 
     def header(self):
+        print("")
+        print("")
+        print("")
         print("")
         print("******************************************************")
         print("PDF EXTRACTOR")
